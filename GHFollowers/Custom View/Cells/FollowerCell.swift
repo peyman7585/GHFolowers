@@ -22,8 +22,8 @@ class FollowerCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func set(followe: Follower){
-        usernameLabel.text = followe.login
+    func set(follower: Follower){
+        usernameLabel.text = follower.login
     }
     
     private func configure(){
@@ -32,14 +32,14 @@ class FollowerCell: UICollectionViewCell {
         
         let padding: CGFloat = 8
         NSLayoutConstraint.activate([
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding),
-            avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            avatarImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: padding),
+            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            avatarImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
             
-            usernameLabel.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: padding),
-            usernameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
-            usernameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            usernameLabel.topAnchor.constraint(equalTo: bottomAnchor, constant: padding),
+            usernameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding),
+            usernameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding),
             usernameLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
