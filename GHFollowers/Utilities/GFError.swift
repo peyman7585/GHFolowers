@@ -1,8 +1,8 @@
 //
-//  ErrorMassage.swift
+//  GFError.swift
 //  GHFollowers
 //
-//  Created by Peyman on 1/2/25.
+//  Created by Peyman on 1/21/25.
 //
 
 import Foundation
