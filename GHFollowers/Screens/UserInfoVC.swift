@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol UserInfoVCDelegate: class {
+    func didTapGithubProfile(for user: User)
+    func didTapGitFollowers(for user: User)
+}
+
 class UserInfoVC: UIViewController {
 
     let headerView = UIView()
@@ -38,10 +43,7 @@ class UserInfoVC: UIViewController {
             switch result {
             case .success(let user):
                 DispatchQueue.main.async {
-                    self.add(childVc: GFUserInfoHeaderVC(user: user), to: self.headerView)
-                    self.add(childVc: GFRepoItemVC(user: user), to: self.itemViewOne)
-                    self.add(childVc: GFFollowerItemVC(user: user), to: self.itemViewTwo)
-                    self.dateLabel.text = "Github since \(user.createdAt.convertToDisplayFormat())"
+                    self.configureUIElements(with: user)
                 }
                
             case .failure(let error):
@@ -50,6 +52,18 @@ class UserInfoVC: UIViewController {
         }
     }
     
+    func configureUIElements(with user: User){
+        let repoItemVC = GFRepoItemVC(user: user)
+        repoItemVC.delegate = self
+        
+        let followerItemVC = GFFollowerItemVC(user: user)
+        followerItemVC.delegate = self
+        
+        self.add(childVc: repoItemVC, to: self.itemViewOne)
+        self.add(childVc: followerItemVC, to: self.itemViewTwo)
+        self.add(childVc: GFUserInfoHeaderVC(user: user), to: self.headerView)
+        self.dateLabel.text = "Github since \(user.createdAt.convertToDisplayFormat())"
+    }
     
     func layoutUI() {
         let padding: CGFloat = 20
@@ -91,4 +105,19 @@ class UserInfoVC: UIViewController {
     @objc func disMissVC() {
         dismiss(animated: true)
     }
+}
+
+extension UserInfoVC: UserInfoVCDelegate{
+    func didTapGithubProfile(for user: User) {
+        guard let url = URL(string: user.htmlUrl) else {
+            presentGFAlertMainThread(title: "Invalid URL", message: "The url attached to this user is invalid", buttonTitle: "OK")
+            return
+        }
+        presentSafariVC(with: url)
+    }
+    
+    func didTapGitFollowers(for user: User) {
+        print("follower button tapped")
+    }
+    
 }
