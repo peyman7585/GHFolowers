@@ -12,9 +12,10 @@ class UserInfoVC: UIViewController {
     let headerView = UIView()
     let itemViewOne = UIView()
     let itemViewTwo = UIView()
+    let dateLabel = GFBodyLabel(textAlignment: .center)
     var itemViews: [UIView] = []
-    
     var username: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,12 +36,12 @@ class UserInfoVC: UIViewController {
             guard let self = self else { return }
             
             switch result {
-                
             case .success(let user):
                 DispatchQueue.main.async {
                     self.add(childVc: GFUserInfoHeaderVC(user: user), to: self.headerView)
                     self.add(childVc: GFRepoItemVC(user: user), to: self.itemViewOne)
                     self.add(childVc: GFFollowerItemVC(user: user), to: self.itemViewTwo)
+                    self.dateLabel.text = "Github since \(user.createdAt.convertToDisplayFormat())"
                 }
                
             case .failure(let error):
@@ -52,7 +53,7 @@ class UserInfoVC: UIViewController {
     
     func layoutUI() {
         let padding: CGFloat = 20
-        itemViews = [headerView,itemViewOne,itemViewTwo]
+        itemViews = [headerView,itemViewOne,itemViewTwo,dateLabel]
         
         for itemview in itemViews {
             view.addSubview(itemview)
@@ -74,6 +75,9 @@ class UserInfoVC: UIViewController {
             itemViewTwo.topAnchor.constraint(equalTo: itemViewOne.bottomAnchor, constant: padding),
             itemViewTwo.heightAnchor.constraint(equalToConstant: 140),
             
+            dateLabel.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
+            dateLabel.heightAnchor.constraint(equalToConstant: 18)
+            
         ])
     }
     
@@ -83,8 +87,7 @@ class UserInfoVC: UIViewController {
         childVc.view.frame = containerView.bounds
         childVc.didMove(toParent: self)
     }
-    
-    
+        
     @objc func disMissVC() {
         dismiss(animated: true)
     }
