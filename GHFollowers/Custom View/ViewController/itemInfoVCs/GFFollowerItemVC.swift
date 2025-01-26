@@ -20,6 +20,11 @@ class GFFollowerItemVC: GFItemInfoVC {
     }
     
     override func actionButtonTapped() {
-        delegate.didTapGitFollowers(for: user)
+        guard user.followers != 0 else {
+            presentGFAlertMainThread(title: "No Followers", message: "This user has no follower, what a shame😑", buttonTitle: "OK")
+            return
+        }
+        delegate.didTapGetFollowers(for: user)
+        dismiss(animated: true)
     }
 }

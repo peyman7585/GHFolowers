@@ -9,7 +9,7 @@ import UIKit
 
 protocol UserInfoVCDelegate: class {
     func didTapGithubProfile(for user: User)
-    func didTapGitFollowers(for user: User)
+    func didTapGetFollowers(for user: User)
 }
 
 class UserInfoVC: UIViewController {
@@ -20,6 +20,8 @@ class UserInfoVC: UIViewController {
     let dateLabel = GFBodyLabel(textAlignment: .center)
     var itemViews: [UIView] = []
     var username: String!
+    
+    weak var delegate: FollowerListVCDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,8 +118,8 @@ extension UserInfoVC: UserInfoVCDelegate{
         presentSafariVC(with: url)
     }
     
-    func didTapGitFollowers(for user: User) {
-        print("follower button tapped")
+    func didTapGetFollowers(for user: User) {
+        delegate.didRequestFollowes(for: user.login)
     }
     
 }
