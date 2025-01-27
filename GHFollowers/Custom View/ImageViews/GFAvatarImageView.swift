@@ -50,9 +50,7 @@ class GFAvatarImageView: UIImageView {
             
             DispatchQueue.main.async { self.image = image }
             
-         
         }
-            
         task.resume()
     }
 }
